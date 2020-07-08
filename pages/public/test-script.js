@@ -1,0 +1,54 @@
+const body = $("body");
+body.css({
+  position: "relative",
+});
+
+const shop = Shopify.shop;
+
+const makeApp = (products) => {
+  const bestSellerContainer = $(
+    `<div>
+            <h3>Our Best Sellers <h3/>
+        <div/>`
+  ).css({
+    'position': "fixed",
+    'background-color': "#ffffff",
+    'border': "1px solid black",
+    'bottom': "80px",
+    'right': "25px",
+    'height': "400px",
+    'width': "300px",
+    'disply': "none",
+  });
+
+  const bestSellerButton = $("<img/>")
+    .attr(
+      "src",
+      "https://cdn.shopify.com/s/files/1/0325/3174/2765/files/bestseller-button-trans.png"
+    )
+    .css({
+    'position': "fixed",
+    'width': "150px",
+    'bottom': "20px",
+    'right': "20px",
+    'cursor': "pointer"
+    });
+
+    body.append(bestSellerButton)
+    body.append(bestSellerContainer)
+
+    bestSellerButton.click(()=>{
+        bestSellerContainer.slideToggle()
+    })
+
+};
+
+fetch(
+  "https://cors-anywhere.herokuapp.com/https://014c8715fdc3.ngrok.io/api/products?shop=deadboy-noside.myshopify.com"
+)
+  .then((res) => res.json())
+  .then((data) => {
+    makeApp(data.data);
+    console.log(data);
+  })
+  .catch((error) => console.log(error))
